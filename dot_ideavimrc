@@ -1,0 +1,22 @@
+let mapleader = " "
+
+inoremap jk <ESC>
+inoremap JK <ESC>
+inoremap Jk <ESC>
+inoremap jK <ESC>
+set smartcase
+
+
+" Requires IdeaVim-Sneak plugin (port of ideavim-sneak)
+" Replaces s and S to search forwards/backwards with 2 chars. ; and , to repeat
+set sneak
+
+" Requires IdeaVim-QuickScope plugin (port of quick-scope)
+" Docs say to ensure that `set quickscope` is placed after `set sneak` (not sure why)
+" Replaces f/F and t/T to show highlights
+set quickscope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+map <Leader>pf <action>(com.mituuz.fuzzier.Fuzzier)
+map <Leader>mf <action>(com.mituuz.fuzzier.FuzzierMover)
+map <Leader>gf <action>(com.mituuz.fuzzier.FuzzierVCS)
