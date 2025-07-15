@@ -1,0 +1,5 @@
+gtk-titlebar = false
+font-family = FiraCode Nerd Font Mono
+font-size = 9
+#theme = Dimidium
+theme = zenwritten_dark
