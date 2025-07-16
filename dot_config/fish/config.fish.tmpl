@@ -1,0 +1,8 @@
+source /usr/share/cachyos-fish-config/cachyos-config.fish
+
+# overwrite greeting
+function fish_greeting
+    # smth smth
+end
+
+set -x OPEN_API_KEY "{{ onepasswordRead "op://quickcode/Test OpenAI API Key/password" }}"
