@@ -1,0 +1,35 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+
+{{ if eq .chezmoi.osRelease.id "cachyos" -}}
+
+{{ range .packages.linux.cachyos.packages.pacman -}}
+pacman -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.linux.cachyos.packages.paru -}}
+paru -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+
+{{ if eq .chezmoi.hostname "cachydan-work" -}}
+{{ range .packages.linux.cachyos.cachydan_work.packages.pacman -}}
+pacman -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+{{ range .packages.linux.cachyos.cachydan_work.packages.paru -}}
+paru -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+{{ if eq .chezmoi.hostname "cachydan" -}}
+{{ range .packages.linux.cachyos.cachydan.packages.pacman -}}
+pacman -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+{{ range .packages.linux.cachyos.cachydan.packages.paru -}}
+paru -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+
+{{ end -}}
+
+{{ end -}}

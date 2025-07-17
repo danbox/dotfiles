@@ -1,0 +1,47 @@
+packages:
+  linux:
+    cachyos:
+      packages:
+        pacman:
+          - nvim
+          - ttr-firacode-nerd
+          - lm-sensors
+        paru:
+          - slack-desktop
+          - gitkraken
+          - thefuck
+          - neovide
+          - ghostty
+          - tailscale
+      cachydan_work:
+        packages:
+          pacman:
+            - docker
+            - docker-compose
+            - postgresql
+            - kubectl
+            - cmake
+            - meson
+            - cpio
+            - libva-nvidia-driver
+          paru:
+            - google-cloud-cli
+            - google-cloud-cli-gke-gcloud-auth-plugin
+            - jetbrains-toolbox
+            - python312
+            - lazydocker
+            - k9s
+            - angular-cli
+            - tad-bin
+        cachydan:
+          packages:
+            pacman:
+              - cachyos-gaming-meta
+            paru:
+              - lutris
+              - parallel-launcher
+              - spotify
+              - sunshine
+              - discord
+
+
