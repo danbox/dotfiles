@@ -33,6 +33,7 @@ packages:
             - k9s
             - angular-cli
             - tad-bin
+            - zoom
         cachydan:
           packages:
             pacman:

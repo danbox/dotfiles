@@ -20,3 +20,5 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 map <Leader>pf <action>(com.mituuz.fuzzier.Fuzzier)
 map <Leader>mf <action>(com.mituuz.fuzzier.FuzzierMover)
 map <Leader>gf <action>(com.mituuz.fuzzier.FuzzierVCS)
+
+Plug 'preservim/nerdtree'
