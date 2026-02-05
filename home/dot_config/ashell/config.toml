@@ -1,0 +1,7 @@
+[modules]
+left = [ "WindowTitle" ]
+center = [ "Workspaces" ]
+right = [ "SystemInfo", [ "Clock", "Privacy", "Settings" ] ]
+
+[clock]
+format = "%a %b %d %I:%M %p"
