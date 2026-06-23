@@ -1,0 +1,16 @@
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                      Colors (CachyOS)                       ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+-- Returned as a module so other files can `local colors = require("config/colors")`.
+
+return {
+    cachylgreen = "rgba(82dcccff)",
+    cachymgreen = "rgba(00aa84ff)",
+    cachydgreen = "rgba(007d6fff)",
+    cachylblue  = "rgba(01ccffff)",
+    cachymblue  = "rgba(182545ff)",
+    cachydblue  = "rgba(111826ff)",
+    cachywhite  = "rgba(ffffffff)",
+    cachygrey   = "rgba(ddddddff)",
+    cachygray   = "rgba(798bb2ff)",
+}

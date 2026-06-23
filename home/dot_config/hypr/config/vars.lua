@@ -1,0 +1,13 @@
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                 User programs / defaults                    ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+-- Replaces the old $filemanager / $applauncher / $terminal / ... variables.
+
+return {
+    filemanager = "",
+    -- applauncher = "rofi -show combi -modi window,run,combi -combi-modi window,run",
+    applauncher = "wofi --show drun",
+    terminal    = "ghostty",
+    idlehandler = [==[swayidle -w timeout 300 'swaylock -f -c 000000' before-sleep 'swaylock -f -c 000000']==],
+    capturing   = [==[grim -g "$(slurp)" - | swappy -f -]==],
+}
