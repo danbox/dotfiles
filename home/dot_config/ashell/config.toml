@@ -1,7 +1,9 @@
 [modules]
 left = [ "WindowTitle" ]
 center = [ "Workspaces" ]
-right = [ "SystemInfo", [ "Clock", "Privacy", "Settings" ] ]
+right = [ "SystemInfo", [ "Privacy", "Settings", "Tempo" ] ]
 
-[clock]
-format = "%a %b %d %I:%M %p"
+# ashell 0.9.0 replaced the "Clock" module with "Tempo" (clock + optional weather).
+# Omitting weather_location renders a plain clock with no network calls.
+[tempo]
+clock_format = "%a %b %d %I:%M %p"
