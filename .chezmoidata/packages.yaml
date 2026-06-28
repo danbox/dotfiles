@@ -6,6 +6,7 @@ packages:
           - nvim
           - ttf-firacode-nerd
           - lm-sensors
+          - wireguard-tools
         paru:
           - slack-desktop
           - gitkraken

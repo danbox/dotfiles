@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+#   airvpn enable    # connect at boot
+#   airvpn start     # connect now
+
+set -euo pipefail
+
+SUDO=""
+[ "$(id -u)" -ne 0 ] && SUDO="sudo"
+
+# 1) Make sure wg-quick exists (also tracked in .chezmoidata/packages.yaml).
+command -v wg-quick >/dev/null 2>&1 || $SUDO pacman -S --noconfirm --needed wireguard-tools
+
+# 2) Retire the old eddie-cli experiment, if it's still around.
+if [ -f /etc/systemd/system/eddie-cli.service ]; then
+  $SUDO systemctl disable --now eddie-cli.service 2>/dev/null || true
+  $SUDO rm -f /etc/systemd/system/eddie-cli.service
+  $SUDO rm -rf /var/lib/eddie
+fi
+rm -f "{{ .chezmoi.homeDir }}/.config/eddie/eddie.env"
+
+# 3) Install the AirVPN WireGuard config (0600, root-only).
+read -r -d '' WGCONF <<'WGEOF' || true
+{{ onepasswordRead "op://Private/AirVPN WireGuard/notesPlain" }}
+WGEOF
+$SUDO install -d -m 0700 /etc/wireguard
+printf '%s\n' "$WGCONF" | $SUDO install -m 0600 /dev/stdin /etc/wireguard/airvpn.conf
+
+$SUDO systemctl daemon-reload
+echo "Installed /etc/wireguard/airvpn.conf"
+echo "Connect at boot: airvpn enable"
+echo "Connect now:     airvpn start   (verify: airvpn show ; airvpn ip)"

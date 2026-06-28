@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# airvpn start|stop|restart|status|logs|show|ip|enable|disable
+#
+set -euo pipefail
+
+IFACE=airvpn                      # -> /etc/wireguard/airvpn.conf
+SVC="wg-quick@${IFACE}.service"
+
+case "${1:-status}" in
+  start)   sudo systemctl start   "$SVC" ;;
+  stop)    sudo systemctl stop    "$SVC" ;;
+  restart) sudo systemctl restart "$SVC" ;;
+  enable)  sudo systemctl enable  "$SVC" ;;   # connect at boot
+  disable) sudo systemctl disable "$SVC" ;;
+  status)  systemctl status --no-pager "$SVC" ;;
+  logs)    journalctl -u "$SVC" -f ;;
+  show)    sudo wg show "$IFACE" ;;           # live handshake + transfer
+  ip)      curl -s https://ipinfo.io/json | grep -E '"(ip|city|country|org)"' ;;
+  *)
+    echo "usage: airvpn {start|stop|restart|status|logs|show|ip|enable|disable}" >&2
+    exit 1
+    ;;
+esac
