@@ -3,10 +3,11 @@ packages:
     cachyos:
       packages:
         pacman:
-          - nvim
+          - neovim
           - ttf-firacode-nerd
-          - lm-sensors
+          - lm_sensors
           - wireguard-tools
+          - qbittorrent
         paru:
           - slack-desktop
           - gitkraken

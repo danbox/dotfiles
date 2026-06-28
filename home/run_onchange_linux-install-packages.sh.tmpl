@@ -1,0 +1,38 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+# Installs packages declared in .chezmoidata/packages.yaml. Per-package so a
+# single renamed/dropped package (common with AUR) only skips itself instead of
+# aborting the whole run. pacman needs root via sudo; paru must NOT run as root.
+set -uo pipefail
+
+{{ if eq .chezmoi.osRelease.id "cachyos" -}}
+if [ "$(id -u)" -eq 0 ]; then
+  echo "Run 'chezmoi apply' as your normal user — paru refuses to run as root." >&2
+  exit 1
+fi
+
+pac() { sudo pacman -S --noconfirm --needed "$1" || echo "  ! pacman skipped: $1" >&2; }
+aur() { paru  -S --noconfirm --needed "$1" || echo "  ! paru skipped: $1"   >&2; }
+
+{{ $c := .packages.linux.cachyos -}}
+{{ range $c.packages.pacman }}pac {{ . | quote }}
+{{ end -}}
+{{ range $c.packages.paru }}aur {{ . | quote }}
+{{ end -}}
+
+{{ if eq .chezmoi.hostname "cachydan-work" -}}
+{{ range $c.cachydan_work.packages.pacman }}pac {{ . | quote }}
+{{ end -}}
+{{ range $c.cachydan_work.packages.paru }}aur {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+{{ if eq .chezmoi.hostname "cachydan" -}}
+{{ range $c.cachydan.packages.pacman }}pac {{ . | quote }}
+{{ end -}}
+{{ range $c.cachydan.packages.paru }}aur {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+{{ end -}}
+{{ end -}}
