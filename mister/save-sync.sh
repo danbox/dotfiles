@@ -1,13 +1,14 @@
 #!/bin/sh
 # save-sync (SMB) — bidirectional save sync between MiSTer units via a Synology SMB share.
-# requires: mount.cifs (cifs-utils) on the MiSTer.
+# Needs only kernel CIFS support (grep cifs /proc/filesystems); the mount.cifs
+# helper is NOT required — we mount with `mount -i` and pass creds inline.
 #
 # install to: /media/fat/Scripts/save-sync.sh   (chmod +x)
 
 set -eu
 
 ### ---- config ----------------------------------------------------------------
-NAS_HOST="192.168.1.10"                 # Synology IP or hostname
+NAS_HOST="192.168.1.2"                  # Synology IP (must be an IP — no helper = no DNS)
 NAS_SHARE="mister-saves"                # the SMB shared-folder name
 SMB_VERS="3.0"                          # 3.0 for modern DSM; try 2.1 if mount fails
 
@@ -40,11 +41,19 @@ trap cleanup EXIT
 
 log "=== sync start (host $(hostname)) ==="
 
-# Mount the share (idempotent).
+# Read creds ourselves and pass them inline: this MiSTer has no mount.cifs helper,
+# and the kernel can't parse credentials= (that's a helper-only option).
+SMB_USER=$(sed -n 's/^username=//p' "$CREDS")
+SMB_PASS=$(sed -n 's/^password=//p' "$CREDS")
+[ -n "$SMB_USER" ] && [ -n "$SMB_PASS" ] || { log "could not read creds from $CREDS — aborting"; exit 1; }
+
+# Mount the share (idempotent). `mount -i` => don't invoke /sbin/mount.cifs;
+# go straight to the kernel cifs module, which parses username=/password= itself.
+# NAS_HOST must be an IP here (no helper => no hostname resolution).
 mkdir -p "$MOUNT"
 if ! mountpoint -q "$MOUNT"; then
-    if ! mount -t cifs "//$NAS_HOST/$NAS_SHARE" "$MOUNT" \
-            -o "credentials=$CREDS,vers=$SMB_VERS,uid=0,gid=0,file_mode=0666,dir_mode=0777,nounix,noserverino,iocharset=utf8"; then
+    if ! mount -i -t cifs "//$NAS_HOST/$NAS_SHARE" "$MOUNT" \
+            -o "username=$SMB_USER,password=$SMB_PASS,vers=$SMB_VERS,uid=0,gid=0,file_mode=0666,dir_mode=0777,nounix,noserverino,iocharset=utf8"; then
         log "MOUNT FAILED for //$NAS_HOST/$NAS_SHARE — aborting"; exit 1
     fi
 fi
